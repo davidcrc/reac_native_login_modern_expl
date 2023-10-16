@@ -291,3 +291,11 @@ yarn add react-native-heroicons react-native-svg
 - To add theme to tailwind , create a file called theme/config.js
 
 - then import in tailwind.config.js ( see this files)
+
+<!--  -->
+
+# Add form validations
+
+```bash
+yarn add yup react-hook-form @hookform/resolvers
+```
