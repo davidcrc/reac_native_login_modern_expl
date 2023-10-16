@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['react-hooks'],
+  plugins: ['@typescript-eslint', 'react-hooks', 'import'],
   extends: ['prettier', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 2021,
@@ -20,5 +20,31 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 1,
     'react-hooks/rules-of-hooks': 2,
     'react-hooks/exhaustive-deps': 1,
+    // this is for sorting WITHIN an import
+    'sort-imports': ['error', { ignoreCase: true, ignoreDeclarationSort: true }],
+    // this is for sorting imports
+    'import/order': [
+      'error',
+      {
+        groups: [['external', 'builtin'], 'internal', ['sibling', 'parent'], 'index'],
+        pathGroups: [
+          {
+            pattern: '@(react|react-native)',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@src/**',
+            group: 'internal',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['internal', 'react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
 };

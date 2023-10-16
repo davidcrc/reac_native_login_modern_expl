@@ -127,3 +127,107 @@ npx husky add .husky/pre-commit "npx --no-install lint-staged"
 ```bash
 yarn add -D lint-staged
 ```
+
+<!-- react-navigation , importts and alias -->
+
+# Add react navigation ( run: pod install )
+
+- https://reactnavigation.org/docs/hello-react-navigation/
+
+```bash
+yarn add @react-navigation/native react-native-screens react-native-safe-area-context
+```
+
+```bash
+yarn add @react-navigation/native-stack
+```
+
+# Add Organizing Imports
+
+```bash
+yarn add -D eslint-plugin-import
+```
+
+- update .eslintrc.js:
+
+```js
+module.exports = {
+  //... existing
+  plugins: [...(existing plugins), 'import'],
+  rules: {
+    // this is for sorting WITHIN an import
+    'sort-imports': ['error', {ignoreCase: true, ignoreDeclarationSort: true}],
+    // this is for sorting imports
+    'import/order': [
+      'error',
+      {
+        groups: [
+          ['external', 'builtin'],
+          'internal',
+          ['sibling', 'parent'],
+          'index',
+        ],
+        pathGroups: [
+          {
+            pattern: '@(react|react-native)',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '@src/**',
+            group: 'internal',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['internal', 'react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
+  },
+};
+```
+
+# Add @alias
+
+```bash
+yarn add --dev babel-plugin-module-resolver
+```
+
+```json
+//tsconfig.json
+{
+  // ...others
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      //We will have to add the same thing in babel.config.js
+      "@/*": ["src/*"]
+    }
+    //other options
+  }
+  //other configs
+}
+```
+
+```js
+// babel.config.js
+module.exports = {
+  // ...others
+  plugins: [
+    // ...others,
+    [
+      'module-resolver',
+      {
+        root: ['.'],
+        alias: {
+          // This has to be mirrored in tsconfig.json
+          '^@/(.+)': './src/\\1',
+        },
+      },
+    ],
+  ],
+};
+```
