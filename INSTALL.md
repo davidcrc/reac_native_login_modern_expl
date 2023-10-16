@@ -231,3 +231,63 @@ module.exports = {
   ],
 };
 ```
+
+<!--  -->
+
+# Add NativeWind
+
+- https://www.nativewind.dev/quick-starts/create-react-native-app
+
+```bash
+yarn add nativewind
+```
+
+```bash
+yarn add --dev tailwindcss@3.3.2
+```
+
+```bash
+yarn add postcss@8.4.23
+```
+
+- run:
+
+```bash
+npx tailwindcss init
+```
+
+- add folders that will use tailwind (tailwind.config.js)
+
+```js
+module.exports = {
+  // ...
+  content: ['./src/App.{js,jsx,ts,tsx}', './src/screens/**/*.{js,jsx,ts,tsx}', './src/components/**/*.{js,jsx,ts,tsx}'],
+  // ...
+};
+```
+
+- add to babel.config.js
+
+```js
+...,
+module.exports = {
+  // ...
+  plugins: ["nativewind/babel", ...(other plugins)],
+}
+```
+
+- for typescript projects, create: app.d.ts, and add:
+
+```ts
+/// <reference types="nativewind/types" />
+```
+
+# Add React Native Heroicons
+
+```bash
+yarn add react-native-heroicons react-native-svg
+```
+
+- To add theme to tailwind , create a file called theme/config.js
+
+- then import in tailwind.config.js ( see this files)
