@@ -29,7 +29,6 @@ const LoginScreen = () => {
           <Image source={IMAGES.login} className="w-40 h-40" />
         </View>
       </SafeAreaView>
-
       <ScrollView
         style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
         className="flex-1 bg-white px-8 py-16 "
