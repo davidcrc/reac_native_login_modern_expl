@@ -1,12 +1,18 @@
-import React from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Controller, useForm } from 'react-hook-form';
+import tryToCatch from 'try-to-catch';
 
 import { LoginType } from './interfaces.hookform';
 import { LoginResolver } from './utils/login.util';
 
+import { auth } from '@/service/firebase';
+
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+
   const formMethods = useForm<LoginType>({
     resolver: LoginResolver,
     mode: 'onChange',
@@ -23,11 +29,19 @@ const Login = () => {
     formState: { errors },
   } = formMethods;
 
-  const onPressSend = (formData: LoginType) => {
-    try {
-      // submitData
-      console.log('formData', formData);
-    } catch (error) {}
+  const onPressSend = async ({ email, password }: LoginType) => {
+    setLoading(true);
+    const [error, data] = await tryToCatch(() => signInWithEmailAndPassword(auth, email, password));
+
+    if (!error) {
+      console.log('DDD', data);
+    }
+
+    if (error) {
+      console.log('EEE', error);
+    }
+
+    setLoading(false);
   };
 
   const onSubmit = () => handleSubmit(onPressSend)();
@@ -74,8 +88,12 @@ const Login = () => {
         <Text className="text-gray-700 mb-5">Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity className="py-3 bg-yellow-400 rounded-xl" onPress={onSubmit}>
+      <TouchableOpacity
+        className="flex flex-row justify-center items-center gap-2 py-3 bg-yellow-400 rounded-xl"
+        onPress={onSubmit}
+      >
         <Text className="text-xl font-bold text-center text-gray-700">Login</Text>
+        {loading && <ActivityIndicator size="small" color="#0000ff" />}
       </TouchableOpacity>
     </View>
   );
