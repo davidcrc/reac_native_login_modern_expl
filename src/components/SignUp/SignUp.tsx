@@ -3,13 +3,8 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Controller, useForm } from 'react-hook-form';
 
+import { SignUpType } from './interfaces.hookform';
 import { SignUpResolver } from './utils/sign-up.util';
-
-type SignUpType = {
-  name: string;
-  email: string;
-  password: string;
-};
 
 const SignUp = () => {
   const formMethods = useForm<SignUpType>({

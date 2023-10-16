@@ -3,12 +3,8 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Controller, useForm } from 'react-hook-form';
 
+import { LoginType } from './interfaces.hookform';
 import { LoginResolver } from './utils/login.util';
-
-type LoginType = {
-  email: string;
-  password: string;
-};
 
 const Login = () => {
   const formMethods = useForm<LoginType>({
