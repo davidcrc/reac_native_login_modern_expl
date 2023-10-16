@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SignUpScreenNavigation } from './SignUpScreenType';
 
 import IMAGES from '@/assets';
+import { SignUp } from '@/components';
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigation>();
@@ -33,31 +34,7 @@ const SignUpScreen = () => {
         style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="form space-y-2">
-          <Text className="text-gray-700 ml-4">Full Name</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-            value="john Doe"
-            placeholder="Enter Name"
-          />
-          <Text className="text-gray-700 ml-4">Email Address</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-            value="johndoe@gmail.com"
-            placeholder="Enter Email"
-          />
-          <Text className="text-gray-700 ml-4">Password</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-7"
-            secureTextEntry
-            value="12345678"
-            placeholder="Enter Password"
-          />
-
-          <TouchableOpacity className="py-3 bg-yellow-400 rounded-xl">
-            <Text className="font-xl font-bold text-center text-gray-700">Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+        <SignUp />
 
         <Text className="text-xl text-gray-700 font-bold text-center py-5">Or</Text>
 
