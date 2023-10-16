@@ -3,18 +3,20 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { Controller, useForm } from 'react-hook-form';
 
-import { LoginResolver } from './utils/login.util';
+import { SignUpResolver } from './utils/sign-up.util';
 
-type LoginType = {
+type SignUpType = {
+  name: string;
   email: string;
   password: string;
 };
 
-const Login = () => {
-  const formMethods = useForm<LoginType>({
-    resolver: LoginResolver,
+const SignUp = () => {
+  const formMethods = useForm<SignUpType>({
+    resolver: SignUpResolver,
     mode: 'onChange',
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -23,21 +25,39 @@ const Login = () => {
   const {
     control,
     handleSubmit,
-
     formState: { errors },
   } = formMethods;
 
-  const onPressSend = (formData: LoginType) => {
+  const onPressSend = (formData: SignUpType) => {
     try {
       // submitData
       console.log('formData', formData);
     } catch (error) {}
   };
 
-  const onSubmit = () => handleSubmit(onPressSend)();
+  const onSubmit = () => {
+    handleSubmit(onPressSend)();
+  };
 
   return (
     <View className="form space-y-2">
+      <Text className="text-gray-700 ml-4">Full Name</Text>
+      <Controller
+        name="name"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <TextInput
+            value={value}
+            onChangeText={onChange}
+            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
+            placeholder="Enter Name"
+            autoFocus
+          />
+        )}
+      />
+
+      {errors.name && <Text className="text-red-500">{errors?.name?.message}</Text>}
+
       <Text className="text-gray-700 ml-4">Email Address</Text>
 
       <Controller
@@ -47,10 +67,10 @@ const Login = () => {
           <TextInput
             value={value}
             onChangeText={onChange}
+            keyboardType="email-address"
             className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-            placeholder="email"
+            placeholder="Enter Email"
             autoCapitalize="none"
-            autoFocus
           />
         )}
       />
@@ -65,8 +85,8 @@ const Login = () => {
           <TextInput
             value={value}
             onChangeText={onChange}
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl"
-            placeholder="Password"
+            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-7"
+            placeholder="Enter Password"
             autoCapitalize="none"
             secureTextEntry
           />
@@ -74,15 +94,11 @@ const Login = () => {
       />
       {errors.password && <Text className="text-red-500">{errors.password.message}</Text>}
 
-      <TouchableOpacity className="flex items-end">
-        <Text className="text-gray-700 mb-5">Forgot Password?</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity className="py-3 bg-yellow-400 rounded-xl" onPress={onSubmit}>
-        <Text className="text-xl font-bold text-center text-gray-700">Login</Text>
+        <Text className="font-xl font-bold text-center text-gray-700">Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default Login;
+export default SignUp;
