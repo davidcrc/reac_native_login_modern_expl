@@ -299,3 +299,57 @@ yarn add react-native-heroicons react-native-svg
 ```bash
 yarn add yup react-hook-form @hookform/resolvers
 ```
+
+<!--  -->
+
+# React Native Firebase Authentication
+
+- Create a proyect in firebase
+
+- Go to "Web"
+
+- Register app - example: react-native-modern
+
+- Install firebase , then copy script
+
+```bash
+yarn add firebase@^9.23.0
+```
+
+- then create: src/service/firebase/index.ts
+
+- then create: src/shared/hooks/useAuth.tsx
+
+- Update appNavigation file
+
+- Also, go to Authentication in firebase project, and enable Email/password then save
+
+## Add react-native-dotenv
+
+```
+yarn add -D react-native-dotenv
+```
+
+- create file in src/env.d.ts
+
+- add to babel.config.js
+
+```js
+module.exports = {
+  // ...
+  plugins: [
+    // ...
+    'module:react-native-dotenv',
+  ],
+};
+```
+
+## Add Try to Catch
+
+```bash
+yarn add try-to-catch
+```
+
+```bash
+yarn add -D @types/try-to-catch
+```

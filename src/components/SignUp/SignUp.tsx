@@ -1,12 +1,18 @@
-import React from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Controller, useForm } from 'react-hook-form';
+import tryToCatch from 'try-to-catch';
 
 import { SignUpType } from './interfaces.hookform';
 import { SignUpResolver } from './utils/sign-up.util';
 
+import { auth } from '@/service/firebase';
+
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+
   const formMethods = useForm<SignUpType>({
     resolver: SignUpResolver,
     mode: 'onChange',
@@ -23,11 +29,19 @@ const SignUp = () => {
     formState: { errors },
   } = formMethods;
 
-  const onPressSend = (formData: SignUpType) => {
-    try {
-      // submitData
-      console.log('formData', formData);
-    } catch (error) {}
+  const onPressSend = async ({ email, password }: SignUpType) => {
+    setLoading(true);
+    const [error, data] = await tryToCatch(() => createUserWithEmailAndPassword(auth, email, password));
+
+    if (!error) {
+      console.log('DDD', data);
+    }
+
+    if (error) {
+      console.log('EEE', error);
+    }
+
+    setLoading(false);
   };
 
   const onSubmit = () => {
@@ -89,8 +103,13 @@ const SignUp = () => {
       />
       {errors.password && <Text className="text-red-500">{errors.password.message}</Text>}
 
-      <TouchableOpacity className="py-3 bg-yellow-400 rounded-xl" onPress={onSubmit}>
+      <TouchableOpacity
+        className="flex flex-row justify-center items-center gap-2 py-3 bg-yellow-400 rounded-xl"
+        onPress={onSubmit}
+        disabled={loading}
+      >
         <Text className="font-xl font-bold text-center text-gray-700">Sign Up</Text>
+        {loading && <ActivityIndicator size="small" color="#0000ff" />}
       </TouchableOpacity>
     </View>
   );
